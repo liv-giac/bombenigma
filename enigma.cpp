@@ -6,32 +6,38 @@
 #include <fstream>
 #include <vector>
 
-using namespace std;
+//using namespace std;
+
 Enigma::Enigma(int argc, char** argv){
+  //plugboard contacts are read, assigned to a vector for checking and then the plugboard object is created
   vector<int> plugboard_contacts;
-  PlugboardConfig(argv[1],plugboard_contacts);
+  PlugboardConfig(argv[1], plugboard_contacts);
+  plugboard = new Plug_reflect(argv[1]);
+  //reflector contacts are read, assigned to a vector for checking and then the reflector object is created
   vector<int> reflector_contacts;
-  checkReflectorConfig(argv[2], reflector_contacts);
-  vector<vector<int>> rotor_contacts_array;
+  ReflectorConfig(argv[2], reflector_contacts);
+  reflector = new Plug_reflect(argv[2]);
 
   vector<int> rotor_contacts;
+  vector<vector<int>> rotor_contacts_array;
   for(int i = 3; i < argc-1; i++){
-    checkRotorConfig(argv[i], rotor_contacts);
+    //every rotor configuration gets read and checked
+    RotorConfig(argv[i], rotor_contacts);
     rotor_contacts_array.push_back(rotor_contacts);
     rotor_contacts.clear();
   }
-  // 3 argc means no rotor is provided
-  if(argc == 3){
+
+   if(argc == 3){
     num_of_rotors = 0;
   }
-  else{
-    num_of_rotors = argc-4; 
+   else{
+     num_of_rotors = argc-4; 
 
-  }
+   }
+
+
   RotorPositionConfig(argv[argc-1]);
-
-  // All the checking is done at this point, so instantiate each component
-
+  //once everything is checked we can set up the array of rotors with the data in the configuration files
   for(int i = 0; i < num_of_rotors; i++){
     Rotor rotor(argv[3+i], rotor_positions[i]);
     rotors.push_back(rotor);
@@ -49,8 +55,7 @@ bool Enigma::PlugboardCheck(const char* path, fstream& in_stream, int& index_num
     in_stream.close();
   }
   if(!RangeCheck(index_num)){
-    cout << "The plugboard configuration file " << path << \
-    " contains a number not in 0-25 range" << endl;
+    cout << "The plugboard configuration file " << path << " contains a number not in 0-25 range" << endl;
     in_stream.close();
   }
   return true;
@@ -90,103 +95,74 @@ void Enigma::PlugboardConfig(const char* path, vector<int>& contacts){
   in_stream.close();
 }
 
-void Enigma::checkReflectorConfig(const char* path, vector<int>& contacts){
+void Enigma::ReflectorConfig(const char* path, vector<int>& contacts){
   int num;
   int counter = 0;
   fstream in_stream;
   in_stream.open(path);
   if(in_stream.fail()){
-    cerr << "Error opening or reading the configulation file " << path << endl;
+    cout<< "Error with the reflector configuration file " << path << endl;
     in_stream.close();
-    throw(ERROR_OPENING_CONFIGURATION_FILE);
   }
 
   while(!in_stream.eof()){
     in_stream >> ws;
-    int end_of_file = in_stream.peek();
-    if(end_of_file == EOF){
+    if(in_stream.peek() == EOF){
       break;
     }
     in_stream >> num;
     if(in_stream.fail()){
-      cerr << "Non-numeric character in reflector file " << path << endl;
+      cout << "Invalid character in reflector configuration file" << path << endl;
       in_stream.close();
-      throw(NON_NUMERIC_CHARACTER);
     }
-    if(!isNumberRangeCorrect(num)){
-      cerr << "The file " << path << \
-      " contains a number that is not between 0 and 25" << endl;
+    if(!RangeCheck(num)){
+      cout << "The reflector configuration file " << path <<" contains a number that is not between 0 and 25" << endl;
       in_stream.close();
-      throw(INVALID_INDEX);
+
     }
     contacts.push_back(num);
-    if(counter < ALPHABET_LENGTH && \
-      checkAppearedBefore(contacts, num, counter) != -1){
+    if(counter < ALPH_LEN && AppearedBefore(contacts, num, counter) != -1){
       in_stream.close();
-      throw(INVALID_REFLECTOR_MAPPING);
-    }
+       cout << "Invalid reflector mapping!" <<endl;}
     counter++;
 
   }
   in_stream.close();
 
-  if(counter%2!=0){
-      cerr << "Incorrect (odd) number of parameters in reflector file " \
-      << path << endl;
-      throw(INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS);
-  }
-  if(counter != ALPHABET_LENGTH){
-    cerr << "Insufficient number of mappings in reflector file: " \
-    << path << endl;
-    throw(INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS);
-  }
+  if(counter%2!=0) cout<< "Wrong number of parameters in reflector configuration file " << path << endl;
+  if(counter != ALPH_LEN) cerr << "Incomplete mappings in reflector configuration file: " << path << endl;
+
 }
-
-void Enigma::checkRotorConfig(const char* path, vector<int>& contacts){
+void Enigma::RotorConfig(const char* path, vector<int>& contacts){
   int num;
   int counter = 0;
   fstream in_stream;
   in_stream.open(path);
   if(in_stream.fail()){
-    cerr << "Error opening or reading the configulation file " << path << endl;
+    cout << "Error with the rotor configuration file " << path << endl;
     in_stream.close();
   }
-
   while(!in_stream.eof()){
     in_stream >> ws;
-    int end_of_file = in_stream.peek();
-    if(end_of_file == EOF){
-      break;
-    }
+    if(in_stream.peek() == EOF) break;
     in_stream >> num;
-
     if(in_stream.fail()){
-      cerr << "Non-numeric character for mapping in rotor file " \
-      << path << endl;
+      cout << "Invalid character in rotor configuration file "  << path << endl;
       in_stream.close();
-      throw(NON_NUMERIC_CHARACTER);
     }
-    if(!isNumberRangeCorrect(num)){
-      cerr << "The file " << path \
-      << " contains a number that is not between 0 and 25" << endl;
+    if(!RangeCheck(num)){
+      cout << "The file " << path << " contains a number that isn't in the [0-25] range" << endl;
       in_stream.close();
-      throw(INVALID_INDEX);
     }
     contacts.push_back(num);
-
-    if(counter < ALPH_LEN-1 && \
-      checkAppearedBefore(contacts, num, counter) != -1){
+    if(counter < ALPH_LEN-1 && AppearedBefore(contacts, num, counter) != -1){
       in_stream.close();
-      throw(INVALID_ROTOR_MAPPING);
+      cout << "The mapping is invalid/incomplete (repeated values)" << endl;
     }
     counter++;
   }
   in_stream.close();
-
-  if(counter < ALPH_LEN){
-    cerr << "Not all inputs mapped in rotor file: " << path << endl;
-    throw(INVALID_ROTOR_MAPPING);
-  }
+  if(counter < ALPH_LEN)cout << "The mapping is invalid/incomplete (not enough values)" << endl;
 }
 
 void Enigma::RotorPositionConfig(const char* path){
@@ -236,36 +212,43 @@ int Enigma::AppearedBefore(vector<int> contacts, int num, int position){
 }
 
 void Enigma::encryptMessage(char& letter){
-  int current_index = letter - 'A';
-  current_index = plugboard_->map(current_index);
-
-  if(num_of_rotors_ > 0){
-    rotors_[num_of_rotors_-1].rotate();
+  int curr_index = letter - 'A';
+  cout << "mapping " << curr_index << " into ";
+  curr_index = plugboard->map(curr_index);
+  cout << curr_index << " through the plugboard" << endl;
+      cout << "mapping " << curr_index << " into ";
+  if(num_of_rotors> 0){
+    rotors[num_of_rotors-1].rotate();
   }
 
-  if(num_of_rotors_ > 0){
-    for(int i = num_of_rotors_ ; i > 0; i--){
-      // TODO Needs explanation here
-      current_index = rotors_[i-1].shiftDown(current_index);
-      current_index = rotors_[i-1].mapForward(current_index);
-      current_index = rotors_[i-1].shiftUp(current_index);
-      if(rotors_[i-1].isCurrentPositionInNotch() && \
-         rotors_[i-1].getPreviousPosition() != \
-         rotors_[i-1].getCurrentPosition()){
+  if(num_of_rotors > 0){
+    for(int i = num_of_rotors; i > 0; i--){
+      curr_index = rotors[i-1].shiftDown(curr_index);
+      curr_index = rotors[i-1].mapForward(curr_index);
+      curr_index = rotors[i-1].shiftUp(curr_index);
+      if(rotors[i-1].isItNotch() && rotors[i-1].getPreviousPosition() != rotors[i-1].getCurrentPosition()){
         if(i-1 > 0){
-          rotors_[i-2].rotate();
-        }
+          rotors[i-2].rotate();
+         } 
+      } 
+      cout << curr_index << " by rotor number "<< i <<" , then into ";
       }
-    }
   }
-  current_index = reflector_->map(current_index);
-  if(num_of_rotors_ > 0){
-    for(int i = 0; i < num_of_rotors_; i++){
-      current_index = rotors_[i].shiftDown(current_index);
-      current_index = rotors_[i].mapBackward(current_index);
-      current_index = rotors_[i].shiftUp(current_index);
-    }
+  cout << "the reflector."<< endl << "mapping " << curr_index << " into ";
+  curr_index = reflector->map(curr_index); 
+  cout << curr_index << " through the reflector" << endl;
+  cout << "mapping " << curr_index << " into ";
+    if(num_of_rotors > 0){
+    for(int i = 0; i < num_of_rotors; i++){
+      curr_index = rotors[i].shiftDown(curr_index);
+      curr_index = rotors[i].mapBackward(curr_index);
+      curr_index = rotors[i].shiftUp(curr_index);
+      cout << curr_index << " by rotor number "<< i <<" , then into ";
+     }
   }
-  current_index = plugboard_->map(current_index);
-  letter = current_index + 'A';
+   cout << "the plugboard."<< endl << "mapping " << curr_index << " into ";
+  curr_index = plugboard->map(curr_index);
+  cout << curr_index << " through the plugboard" << endl;
+  letter = curr_index + 'A';
 }
+ 

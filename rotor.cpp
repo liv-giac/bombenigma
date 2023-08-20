@@ -12,7 +12,7 @@ Rotor::Rotor(const char* path, int start_position){
   int num;
   int count = 0;
   while(in_stream >> num){
-    if(count < ALPHABET_LENGTH){
+    if(count < ALPH_LEN){
       contacts[count] = num;
     }
     else{
@@ -52,24 +52,23 @@ int Rotor::shiftDown(int input_index){
 }
 
 int Rotor::mapForward(int input_index){
-  return contacts_[input_index];
+  return contacts[input_index];
 }
 
+//this is just a search loop in the contacts
 int Rotor::mapBackward(int contact){
-  for(int i = 0; i < ALPHABET_LENGTH; i++){
-      if(contact == contacts_[i]){
+  for(int i = 0; i < ALPH_LEN; i++){
+      if(contact == contacts[i]){
           return i;
+          break;
       }
   }
   return contact;
 }
 
-bool Rotor::isCurrentPositionInNotch(){
-  int num_of_notches = notches_.size();
-  for(int i= 0; i< num_of_notches; i++){
-    if(current_position_ == notches_[i]){
+bool Rotor::isItNotch(){
+    if(curr_pos == notch){
       return true;
-    }
-  }
+    }else
   return false;
 }

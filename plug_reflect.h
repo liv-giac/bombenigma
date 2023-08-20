@@ -1,5 +1,5 @@
-#ifndef PLUG_REFLECT_H
-#define PLUG_REFLECT_H
+#ifndef PLUGREFLECT_H
+#define PLUGREFLECT_H
 
 #include <vector>
 
@@ -13,7 +13,7 @@ private:
 public:
   //this constructor reads the pairs from the file and stores them in the two vectors
   Plug_reflect(const char* path);
-  //this simply maps the imput according to the pairs.
+  //this simply maps the input according to the pairs and returns
   int map(int input);
 };
 

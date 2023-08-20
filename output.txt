@@ -1,0 +1,70 @@
+mapping 7 into 7 through the plugboard
+mapping 7 into 16 by rotor number 3 , then into 16 by rotor number 2 , then into 23 by rotor number 1 , then into the reflector.
+mapping 23 into 7 through the reflector
+mapping 7 into 15 by rotor number 0 , then into 20 by rotor number 1 , then into 10 by rotor number 2 , then into the plugboard.
+mapping 10 into 10 through the plugboard
+H has been decoded into K
+
+mapping 4 into 4 through the plugboard
+mapping 4 into 0 by rotor number 3 , then into 0 by rotor number 2 , then into 4 by rotor number 1 , then into the reflector.
+mapping 4 into 0 through the reflector
+mapping 0 into 20 by rotor number 0 , then into 7 by rotor number 1 , then into 2 by rotor number 2 , then into the plugboard.
+mapping 2 into 2 through the plugboard
+E has been decoded into C
+
+mapping 11 into 11 through the plugboard
+mapping 11 into 21 by rotor number 3 , then into 24 by rotor number 2 , then into 2 by rotor number 1 , then into the reflector.
+mapping 2 into 12 through the reflector
+mapping 12 into 2 by rotor number 0 , then into 15 by rotor number 1 , then into 20 by rotor number 2 , then into the plugboard.
+mapping 20 into 20 through the plugboard
+L has been decoded into U
+
+mapping 14 into 14 through the plugboard
+mapping 14 into 2 by rotor number 3 , then into 3 by rotor number 2 , then into 5 by rotor number 1 , then into the reflector.
+mapping 5 into 11 through the reflector
+mapping 11 into 4 by rotor number 0 , then into 25 by rotor number 1 , then into 23 by rotor number 2 , then into the plugboard.
+mapping 23 into 23 through the plugboard
+O has been decoded into X
+
+mapping 12 into 12 through the plugboard
+mapping 12 into 17 by rotor number 3 , then into 6 by rotor number 2 , then into 3 by rotor number 1 , then into the reflector.
+mapping 3 into 25 through the reflector
+mapping 25 into 9 by rotor number 0 , then into 1 by rotor number 1 , then into 13 by rotor number 2 , then into the plugboard.
+mapping 13 into 13 through the plugboard
+M has been decoded into N
+
+mapping 24 into 24 through the plugboard
+mapping 24 into 3 by rotor number 3 , then into 10 by rotor number 2 , then into 13 by rotor number 1 , then into the reflector.
+mapping 13 into 17 through the reflector
+mapping 17 into 23 by rotor number 0 , then into 8 by rotor number 1 , then into 19 by rotor number 2 , then into the plugboard.
+mapping 19 into 19 through the plugboard
+Y has been decoded into T
+
+mapping 1 into 1 through the plugboard
+mapping 1 into 10 by rotor number 3 , then into 11 by rotor number 2 , then into 19 by rotor number 1 , then into the reflector.
+mapping 19 into 18 through the reflector
+mapping 18 into 18 by rotor number 0 , then into 4 by rotor number 1 , then into 24 by rotor number 2 , then into the plugboard.
+mapping 24 into 24 through the plugboard
+B has been decoded into Y
+
+mapping 0 into 0 through the plugboard
+mapping 0 into 9 by rotor number 3 , then into 1 by rotor number 2 , then into 10 by rotor number 1 , then into the reflector.
+mapping 10 into 22 through the reflector
+mapping 22 into 13 by rotor number 0 , then into 19 by rotor number 1 , then into 18 by rotor number 2 , then into the plugboard.
+mapping 18 into 18 through the plugboard
+A has been decoded into S
+
+mapping 1 into 1 through the plugboard
+mapping 1 into 14 by rotor number 3 , then into 12 by rotor number 2 , then into 14 by rotor number 1 , then into the reflector.
+mapping 14 into 16 through the reflector
+mapping 16 into 7 by rotor number 0 , then into 11 by rotor number 1 , then into 13 by rotor number 2 , then into the plugboard.
+mapping 13 into 13 through the plugboard
+B has been decoded into N
+
+mapping 24 into 24 through the plugboard
+mapping 24 into 7 by rotor number 3 , then into 20 by rotor number 2 , then into 0 by rotor number 1 , then into the reflector.
+mapping 0 into 4 through the reflector
+mapping 4 into 0 by rotor number 0 , then into 0 by rotor number 1 , then into 10 by rotor number 2 , then into the plugboard.
+mapping 10 into 10 through the plugboard
+Y has been decoded into K
+
