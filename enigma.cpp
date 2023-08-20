@@ -213,10 +213,10 @@ int Enigma::AppearedBefore(vector<int> contacts, int num, int position){
 
 void Enigma::encryptMessage(char& letter){
   int curr_index = letter - 'A';
-  cout << "mapping " << curr_index << " into ";
+
   curr_index = plugboard->map(curr_index);
-  cout << curr_index << " through the plugboard" << endl;
-      cout << "mapping " << curr_index << " into ";
+
+
   if(num_of_rotors> 0){
     rotors[num_of_rotors-1].rotate();
   }
@@ -231,24 +231,64 @@ void Enigma::encryptMessage(char& letter){
           rotors[i-2].rotate();
          } 
       } 
-      cout << curr_index << " by rotor number "<< i <<" , then into ";
+
       }
   }
-  cout << "the reflector."<< endl << "mapping " << curr_index << " into ";
+
   curr_index = reflector->map(curr_index); 
-  cout << curr_index << " through the reflector" << endl;
-  cout << "mapping " << curr_index << " into ";
+
     if(num_of_rotors > 0){
     for(int i = 0; i < num_of_rotors; i++){
       curr_index = rotors[i].shiftDown(curr_index);
       curr_index = rotors[i].mapBackward(curr_index);
       curr_index = rotors[i].shiftUp(curr_index);
-      cout << curr_index << " by rotor number "<< i <<" , then into ";
+
      }
   }
-   cout << "the plugboard."<< endl << "mapping " << curr_index << " into ";
+
   curr_index = plugboard->map(curr_index);
-  cout << curr_index << " through the plugboard" << endl;
+
   letter = curr_index + 'A';
 }
+//encryption that prints out the decoding, used it to debug
+// void Enigma::encryptMessage(char& letter){
+//   int curr_index = letter - 'A';
+//   cout << "mapping " << curr_index << " into ";
+//   curr_index = plugboard->map(curr_index);
+//   cout << curr_index << " through the plugboard" << endl;
+//       cout << "mapping " << curr_index << " into ";
+//   if(num_of_rotors> 0){
+//     rotors[num_of_rotors-1].rotate();
+//   }
+
+//   if(num_of_rotors > 0){
+//     for(int i = num_of_rotors; i > 0; i--){
+//       curr_index = rotors[i-1].shiftDown(curr_index);
+//       curr_index = rotors[i-1].mapForward(curr_index);
+//       curr_index = rotors[i-1].shiftUp(curr_index);
+//       if(rotors[i-1].isItNotch() && rotors[i-1].getPreviousPosition() != rotors[i-1].getCurrentPosition()){
+//         if(i-1 > 0){
+//           rotors[i-2].rotate();
+//          } 
+//       } 
+//       cout << curr_index << " by rotor number "<< i <<" , then into ";
+//       }
+//   }
+//   cout << "the reflector."<< endl << "mapping " << curr_index << " into ";
+//   curr_index = reflector->map(curr_index); 
+//   cout << curr_index << " through the reflector" << endl;
+//   cout << "mapping " << curr_index << " into ";
+//     if(num_of_rotors > 0){
+//     for(int i = 0; i < num_of_rotors; i++){
+//       curr_index = rotors[i].shiftDown(curr_index);
+//       curr_index = rotors[i].mapBackward(curr_index);
+//       curr_index = rotors[i].shiftUp(curr_index);
+//       cout << curr_index << " by rotor number "<< i <<" , then into ";
+//      }
+//   }
+//    cout << "the plugboard."<< endl << "mapping " << curr_index << " into ";
+//   curr_index = plugboard->map(curr_index);
+//   cout << curr_index << " through the plugboard" << endl;
+//   letter = curr_index + 'A';
+// }
  
