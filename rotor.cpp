@@ -38,7 +38,19 @@ void Rotor::rotate(){
   prev_pos = curr_pos;
   curr_pos = (curr_pos + 1) % ALPH_LEN;
 }
+vector<int> Rotor::getNotchAndPos(){
+  vector<int> info;
+  info.push_back(notch);
+  info.push_back(curr_pos);
+  return info;
+}
 
+vector<int> Rotor::getContacts(){
+  vector<int> contactlist;
+  for (int i=0;i<27;i++)
+  contactlist.push_back(contacts[i]);
+  return contactlist;
+}
 //in the shifts we use the modulus to make sure we don't exit the range 0-25
 
 //shift up is used to shift to the offset position of the rotor (curr_pos) and return to "standard" working index

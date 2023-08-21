@@ -42,7 +42,27 @@ Enigma::Enigma(int argc, char** argv){
     Rotor rotor(argv[3+i], rotor_positions[i]);
     rotors.push_back(rotor);
   }
+   //printEnigma();
 }
+
+Enigma::Enigma(vector<int> rotor_indexes, vector<int> rotor_pos, vector<int> plugboard_input, int reflector_index){
+  //plugboard initialized
+  plugboard = new Plug_reflect(plugboard_input);
+  //reflector initialization
+  string path = "reflectors/" + to_string(reflector_index) + ".rf";
+  const char* path_cstr = path.c_str();
+  reflector = new Plug_reflect(path_cstr);
+  //set rotor positions
+  rotor_positions=rotor_pos;
+  num_of_rotors = 3;
+  for(int i = 0; i < 3; i++){
+    path = "rotors/" + to_string(rotor_indexes[i]) + ".rot";
+  const char* path_cstr = path.c_str();
+    Rotor rotor(path_cstr, rotor_positions[i]);
+    rotors.push_back(rotor);
+    }
+     //printEnigma();
+  }
 
 bool Enigma::PlugboardCheck(const char* path, fstream& in_stream, int& index_num){
   in_stream >> ws;
@@ -211,6 +231,26 @@ int Enigma::AppearedBefore(vector<int> contacts, int num, int position){
   return -1;
 }
 
+void Enigma::timetravel(int time){
+  for (int j=0; j<time;j++){
+  if(num_of_rotors > 0){
+    rotors[num_of_rotors-1].rotate();
+    for(int i = num_of_rotors; i > 0; i--){
+      if(rotors[i-1].isItNotch() && rotors[i-1].getPreviousPosition() != rotors[i-1].getCurrentPosition()){
+        if(i-1 > 0){
+          rotors[i-2].rotate();
+         } 
+      } 
+      }
+  }
+  }
+  vector<int> new_pos;
+  new_pos.push_back(rotors[0].getCurrentPosition());
+  new_pos.push_back(rotors[1].getCurrentPosition());
+  new_pos.push_back(rotors[2].getCurrentPosition());
+  rotor_positions=new_pos;
+}
+
 void Enigma::encryptMessage(char& letter){
   int curr_index = letter - 'A';
 
@@ -249,6 +289,35 @@ void Enigma::encryptMessage(char& letter){
   curr_index = plugboard->map(curr_index);
 
   letter = curr_index + 'A';
+}
+
+void Enigma::printEnigma(){
+  cout << "the plugboard settings are "<< endl;
+  vector<int> pair1 = plugboard->getpair1();
+  vector<int> pair2 = plugboard->getpair2();
+  for (int i=0; i<pair1.size();i++){
+    cout << pair1[i]<<" "<<pair2[i]<<endl;
+  }
+  cout<<endl;
+
+  cout << "the reflector settings are "<< endl;
+  pair1 = reflector->getpair1();
+  pair2 = reflector->getpair2();
+  for (int i=0; i<pair1.size();i++){
+    cout << pair1[i]<<" "<<pair2[i]<<endl;
+  }
+  cout<<endl;
+  for (int i=0; i<num_of_rotors;i++){
+  cout << "the rotor "<< i+1 <<" settings are "<< endl;
+  vector<int> info = rotors[i].getNotchAndPos();
+  cout << "notch "<<info[0]<<" and initial position "<< info[1] <<  endl;
+  vector<int> contacts = rotors[i].getContacts();
+  for (int i=0; i<contacts.size();i++){
+    cout << contacts[i]<<endl;
+  }
+  cout<<endl;
+
+  }
 }
 //encryption that prints out the decoding, used it to debug
 // void Enigma::encryptMessage(char& letter){

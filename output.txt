@@ -1,1 +1,9 @@
-Loop of three pairs of letters found in the crib YXEEBFLISET: (C, L, 6) (E, L, 2) (C, E, 9) 
+Loop of three pairs of letters found in the crib OTHFULAGRPDNTAZXBBOEBIMG: (crib position 7) (A, T, 19) (R, S, 15) (A, R, 13) 
+HCTSZQJLJSBGAEPWSEHEZLVARHXRQBWLIBACH
+WJSIOAWOTHFULAGRPDNTAZXBBOEBIMGAFRWOR
+potential settings found with rotor positions 0 0 0.
+The plugboard settings would be: 
+T E
+T E
+T E
+

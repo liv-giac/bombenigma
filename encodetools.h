@@ -35,6 +35,21 @@ string encodeFullMessage(int argc, char** argv){
   return output;
 }
 
+string encode(vector<int> rotor_indexes, vector<int> rotor_pos, vector<int> plugboard_input, int reflector_index, string input, int t){
+  
+  Enigma *enigma = nullptr;
+  enigma = new Enigma(rotor_indexes, rotor_pos, plugboard_input, reflector_index);
+  enigma->timetravel(t);
+  string output = "";
+  for(char letter : input){
+    enigma->encryptMessage(letter);
+    output += (char) letter;
+  }
+  delete enigma;
+  return output;
+}
+
+
 string getKeyFromFile(){
    ifstream file("key.txt"); 
     if (!file.is_open()) {
@@ -64,6 +79,7 @@ vector<string> getCribs(string output, string key){
    return cribs;
 }
 
+
 struct codePair{
     char letter1;
     char letter2;
@@ -85,12 +101,12 @@ struct codePair{
 }
 };
 
-set<codePair>  readMatches(string key, string crib){
+set<codePair>  readMatches(string key, string crib, int cribPos){
   set<codePair> codePairs;
   int len = key.size();
   for (int i=0; i<len;i++){
-    if (key[i]<=crib[i]) codePairs.insert({key[i], crib[i],i});
-    else codePairs.insert({crib[i], key [i],i});
+    if (key[i]<=crib[i]) codePairs.insert({key[i], crib[i],i+cribPos});
+    else codePairs.insert({crib[i], key [i],i+cribPos});
   }
   return codePairs;
 }
@@ -133,33 +149,7 @@ vector<codePair> findLoop(set<codePair> pairs){
 return loop;
 }
 
-// vector<codePair> findLoop(const set<codePair>& codePairSet, codePair current, codePair initial, int length, vector<codePair>& path) {
-//     if (length == 3 && current == initial) {
-//         // Found a loop of three; return it
-//         return path;
-//     }
 
-//     // Mark the current codePair as visited
-//     path.push_back(current);
-//     cout << endl << "adding "<< current.letter1 << " " << current.letter2 << " to the path, current length is " << length << endl;
-
-//     for (const codePair& next : codePairSet) {
-
-//         // Check if the next codePair is adjacent and not visited
-//         cout << "considering pair "<<next.letter1<<" "<<next.letter2<<" as next"<<endl;
-//         if ((current.letter2 == next.letter1 || current.letter2 == next.letter2 ||current.letter1 == next.letter1 ||current.letter1 == next.letter2) && (find(path.begin(), path.end(), next) == path.end())) {
-//             vector<codePair> loop = findLoop(codePairSet, next, initial, length + 1, path);
-//             if (!loop.empty()) {
-//                 return loop; // Found a loop, return it
-//             }
-//         }
-//     }
-
-    // Unmark the current codePair (backtrack)
-//     path.pop_back();
-
-//     return {}; // No loop found
-// }
 
 // vector<codePair> findLoop(set<codePair> pairs){
 //   vector<codePair> loop;
@@ -205,7 +195,7 @@ return loop;
 //     }
 //   }
 // return loop;
-// }
+ //}
 
 
 

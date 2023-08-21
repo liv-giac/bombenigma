@@ -7,7 +7,7 @@ HEADER_FILES = $(wildcard *.h)
 OBJ_FILES = $(wildcard *.o)
 GCH_FILES = $(wildcard *.h.gch)
 
-ARG = ./$(EXE) plugboards/I.pb reflectors/I.rf rotors/I.rot rotors/II.rot rotors/III.rot rotors/I.pos < input.txt > output.txt
+ARG = ./$(EXE) plugboard.pb reflectors/1.rf rotors/1.rot rotors/2.rot rotors/3.rot rotors/positions.pos < input.txt > output.txt
 
 $(EXE): $(SRC_FILES) $(HEADER_FILES)
 	$(CC) $(CFLAGS) $(SRC_FILES) -o $(EXE)

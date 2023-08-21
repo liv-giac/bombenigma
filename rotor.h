@@ -36,6 +36,8 @@ public:
   int mapBackward(int contact);
   // returns true if curr_pos is at the notch
   bool isItNotch();
+  vector<int> getNotchAndPos();
+  vector<int> getContacts();
 };
 
 #endif

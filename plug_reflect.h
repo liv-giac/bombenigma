@@ -13,6 +13,11 @@ private:
 public:
   //this constructor reads the pairs from the file and stores them in the two vectors
   Plug_reflect(const char* path);
+  //alternative constructor
+  Plug_reflect(std::vector<int>);
+
+  std::vector<int> getpair1();
+  std::vector<int> getpair2();
   //this simply maps the input according to the pairs and returns
   int map(int input);
 };
