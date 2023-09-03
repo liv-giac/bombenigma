@@ -45,6 +45,12 @@ vector<int> Rotor::getNotchAndPos(){
   return info;
 }
 
+void Rotor::changePos(int pos){
+
+  curr_pos=pos;
+
+}
+
 vector<int> Rotor::getContacts(){
   vector<int> contactlist;
   for (int i=0;i<27;i++)

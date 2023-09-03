@@ -37,6 +37,8 @@ public:
   int AppearedBefore(vector<int> contacts, int num, int position);
   //rotates the rotors without encoding and returns the new position after the time
   void timetravel(int time);
+  //sets rotor positions from given integers
+  void set_pos(vector<int> pos);
   // the encryption method
   void encryptMessage(char& letter);
   void printEnigma();

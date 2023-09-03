@@ -251,6 +251,14 @@ void Enigma::timetravel(int time){
   rotor_positions=new_pos;
 }
 
+void Enigma::set_pos(vector<int> pos){
+  if(num_of_rotors > 0){
+    for(int i = num_of_rotors; i > 0; i--){
+        rotors[i].changePos(pos[i]);
+      }
+  }
+}
+
 void Enigma::encryptMessage(char& letter){
   int curr_index = letter - 'A';
 

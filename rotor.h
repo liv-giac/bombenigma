@@ -26,6 +26,8 @@ public:
   int getPreviousPosition();
   // updates curr_pos and prev_pos
   void rotate();
+  //sets rotor position
+  void changePos(int pos);
   // shiftUp and shiftDown calculates absolute position of input_index
   // by adding/subtructing current position of rotor.
   int shiftUp(int input_index);

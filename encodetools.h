@@ -35,20 +35,21 @@ string encodeFullMessage(int argc, char** argv){
   return output;
 }
 
-string encode(vector<int> rotor_indexes, vector<int> rotor_pos, vector<int> plugboard_input, int reflector_index, string input, int t){
-  
-  Enigma *enigma = nullptr;
-  enigma = new Enigma(rotor_indexes, rotor_pos, plugboard_input, reflector_index);
-  enigma->timetravel(t);
+string encode(Enigma *enigma, string input){
   string output = "";
   for(char letter : input){
     enigma->encryptMessage(letter);
-    output += (char) letter;
+    output += letter;
   }
-  delete enigma;
   return output;
 }
 
+
+Enigma* startEnigma(vector<int> rotor_indexes, vector<int> plugboard_input, int reflector_index){
+  Enigma *enigma = nullptr;
+  enigma = new Enigma(rotor_indexes, {0,0,0}, plugboard_input, reflector_index);
+  return enigma;
+}
 
 string getKeyFromFile(){
    ifstream file("key.txt"); 
@@ -118,6 +119,7 @@ vector<codePair> findLoop(set<codePair> pairs){
     if (!loop.empty()) break;
     temp=pair1.letter2;
     for (codePair pair2 : pairs){
+      temp=pair1.letter2;
       if (1-(pair1==pair2)){
         if (pair2.letter1==temp) {
           temp=pair2.letter2;}
@@ -156,15 +158,15 @@ return loop;
 //   char temp;
 //   for (codePair pair1 : pairs){
 //     if (!loop.empty()) break;
-//     temp=pair1.letter2;
+//      temp=pair1.letter2;
 //     cout <<"searching for letter "<< temp << " from pair "<< pair1.letter1 << temp<<endl;
 //     cout <<"starting second for"<<endl;
 //     for (codePair pair2 : pairs){
+//       temp=pair1.letter2;
 //       cout <<"picked out pair "<< pair2.letter1 << pair2.letter2<<endl;
 //       if (1-(pair1==pair2)){
 //         cout <<"searching for letter "<< temp << " in pair "<< pair2.letter1 << pair2.letter2<<endl;
-//         if (pair2.letter1==temp) {
-//           temp=pair2.letter2;}
+//         if (pair2.letter1==temp) temp=pair2.letter2;
 //         else if (pair2.letter2==temp) temp=pair2.letter1;
 //         else continue;
 //       cout <<"starting third for"<<endl;
@@ -173,7 +175,7 @@ return loop;
 //           cout <<"searching for letter "<< temp << " in pair "<< pair3.letter1 << pair3.letter2<<endl;
 //           if (pair3.letter1==temp) {
 //             temp=pair3.letter2;
-//             if (pair1.letter1==temp){
+//             if (pair1.letter1==pair3.letter2){
 //               loop.push_back(pair1);
 //               loop.push_back(pair2);
 //               loop.push_back(pair3);
@@ -182,20 +184,20 @@ return loop;
 //           }
 //           else if (pair3.letter2==temp) {
 //             temp=pair3.letter1;
-//             if (pair1.letter1==temp){
+//             if (pair1.letter1==pair3.letter1){
 //               loop.push_back(pair1);
 //               loop.push_back(pair2);
 //               loop.push_back(pair3);
               
 //             }
-//           }
+//           } 
 //       }
 //       }
 //     }
 //     }
 //   }
 // return loop;
- //}
+//  }
 
 
 
