@@ -53,9 +53,9 @@ int main(int argc, char** argv){
 
     int check=0;
     //we iterate through all the starting positions
-     for (int i=1;i<ALPH_LEN;i++){
-       for (int j=1;j<ALPH_LEN;j++){
-        for (int k=1;k<ALPH_LEN;k++){
+     for (int i=0;i<ALPH_LEN;i++){
+       for (int j=0;j<ALPH_LEN;j++){
+        for (int k=0;k<ALPH_LEN;k++){
           trial={};
           trial+='A';
           enigma->set_pos({i,j,k});//we set the beginning position

@@ -194,7 +194,7 @@ void Enigma::RotorPositionConfig(const char* path){
       in_stream.close();
     }
     if(!RangeCheck(num)){
-      cout << "The file " << path << " contains a number that is not between 0 and 25 CHANGE " << endl;
+      cout << "The file " << path << " contains a number that is not between 0 and 25 " << endl;
       in_stream.close();
     }
     counter++;

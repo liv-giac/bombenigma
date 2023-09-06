@@ -38,5 +38,5 @@ Here are some pictures of how the Bombe looked and how the solving algorithm wor
 <img src="img/cables.png">
 # In this project
 In this project there are tools to construct working enigmas (coded with the help of some projects found online, readapted to fit my project) with classes to build the different mechanical parts and an overall "enigma" class.  
-Via the makefile you can run the bombe and it will print in the output file the possible positions it would have stopped at. It is important to note that even then not every day was a good day to find rotor positions, since many loops and cribs had to be tried and not always they were useful.
-Via the makefile you can also run the brute-force version, that uses parallel methods to try all the settings and find a key in one of them. This shows how modern technology would have "killed" the enigma instantly. 
+Via the makefile you can run the bombe (make run_bombe) and it will print in the output file the possible positions it would have stopped at. It is important to note that even then not every day was a good day to find rotor positions, since many loops and cribs had to be tried and not always they were useful.
+Via the makefile you can also run the brute-force version (make run_bruteforce), that uses parallel methods to try all the settings and find a key in one of them. This shows how modern technology would have "killed" the enigma instantly. 
