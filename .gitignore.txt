@@ -1,4 +1,6 @@
 *.dSYM
 .DS_Store
 enigma.dSYM/Contents
+bombe.dSYM/Contents
+bruteforce.dSYM/Contents
 .vscode
