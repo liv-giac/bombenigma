@@ -1,10 +1,9 @@
-#include "rotor.h"
-#include "alphabet.h"
+#include "rotor.hpp"
+#include "alphabet.hpp"
 #include <iostream>
 #include <fstream>
 
 using namespace std;
-
 //constructor reads the rotor connections and saves them in contacts, also saves the notch position
 Rotor::Rotor(const char* path, int start_position){
   fstream in_stream;
@@ -45,12 +44,13 @@ vector<int> Rotor::getNotchAndPos(){
   return info;
 }
 
+//sets the position of the rotor to an externally given position
 void Rotor::changePos(int pos){
-
-  curr_pos=pos;
+ curr_pos=pos;
 
 }
 
+//getter
 vector<int> Rotor::getContacts(){
   vector<int> contactlist;
   for (int i=0;i<27;i++)
@@ -68,12 +68,12 @@ int Rotor::shiftUp(int input_index){
 int Rotor::shiftDown(int input_index){
   return (input_index + getCurrentPosition()) % ALPH_LEN;
 }
-
+//simple mapping
 int Rotor::mapForward(int input_index){
   return contacts[input_index];
 }
 
-//this is just a search loop in the contacts
+//this is just a search loop in the contacts, reverse mapping
 int Rotor::mapBackward(int contact){
   for(int i = 0; i < ALPH_LEN; i++){
       if(contact == contacts[i]){
@@ -84,9 +84,10 @@ int Rotor::mapBackward(int contact){
   return contact;
 }
 
+
 bool Rotor::isItNotch(){
     if(curr_pos == notch){
-      return true;
+      return 1;
     }else
-  return false;
+  return 0;
 }

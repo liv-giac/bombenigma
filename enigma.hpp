@@ -1,8 +1,8 @@
 #ifndef ENIGMA_H
 #define ENIGMA_H
 
-#include "plug_reflect.h"
-#include "rotor.h"
+#include "plug_reflect.hpp"
+#include "rotor.hpp"
 #include <fstream>
 #include <vector>
 
@@ -12,12 +12,13 @@ class Enigma{
 private:
 vector<Rotor> rotors; //the rotors 
 vector<int> rotor_positions; //the offsets
-int num_of_rotors; //useful to have as a stored int
+int num_of_rotors; 
 Plug_reflect *plugboard{nullptr};
 Plug_reflect *reflector{nullptr};
 public:
-  //constructor
+  //constructor from makefile/shell info
   Enigma(int argc, char** argv);
+  //constructur from inline input data
   Enigma(vector<int> rotor_indexes, vector<int> rotor_pos, vector<int> plugboard, int reflector_index);
   //checks plugboard mappings and prints any errors
   void PlugboardConfig(const char* path, vector<int>& contacts);
@@ -41,6 +42,7 @@ public:
   void set_pos(vector<int> pos);
   // the encryption method
   void encryptMessage(char& letter);
+  //prints enimga data for debugging
   void printEnigma();
 };
 

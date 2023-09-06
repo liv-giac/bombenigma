@@ -1,12 +1,10 @@
-#include "enigma.h"
-#include "plug_reflect.h"
-#include "rotor.h"
-#include "alphabet.h"
+#include "enigma.hpp"
+#include "plug_reflect.hpp"
+#include "rotor.hpp"
+#include "alphabet.hpp"
 #include <iostream>
 #include <fstream>
 #include <vector>
-
-//using namespace std;
 
 Enigma::Enigma(int argc, char** argv){
   //plugboard contacts are read, assigned to a vector for checking and then the plugboard object is created
@@ -17,7 +15,6 @@ Enigma::Enigma(int argc, char** argv){
   vector<int> reflector_contacts;
   ReflectorConfig(argv[2], reflector_contacts);
   reflector = new Plug_reflect(argv[2]);
-
   vector<int> rotor_contacts;
   vector<vector<int>> rotor_contacts_array;
   for(int i = 3; i < argc-1; i++){
@@ -26,23 +23,18 @@ Enigma::Enigma(int argc, char** argv){
     rotor_contacts_array.push_back(rotor_contacts);
     rotor_contacts.clear();
   }
-
    if(argc == 3){
     num_of_rotors = 0;
   }
    else{
      num_of_rotors = argc-4; 
-
    }
-
-
   RotorPositionConfig(argv[argc-1]);
   //once everything is checked we can set up the array of rotors with the data in the configuration files
   for(int i = 0; i < num_of_rotors; i++){
     Rotor rotor(argv[3+i], rotor_positions[i]);
     rotors.push_back(rotor);
   }
-   //printEnigma();
 }
 
 Enigma::Enigma(vector<int> rotor_indexes, vector<int> rotor_pos, vector<int> plugboard_input, int reflector_index){
@@ -61,7 +53,6 @@ Enigma::Enigma(vector<int> rotor_indexes, vector<int> rotor_pos, vector<int> plu
     Rotor rotor(path_cstr, rotor_positions[i]);
     rotors.push_back(rotor);
     }
-     //printEnigma();
   }
 
 bool Enigma::PlugboardCheck(const char* path, fstream& in_stream, int& index_num){
@@ -235,35 +226,33 @@ void Enigma::timetravel(int time){
   for (int j=0; j<time;j++){
   if(num_of_rotors > 0){
     rotors[num_of_rotors-1].rotate();
-    for(int i = num_of_rotors; i > 0; i--){
-      if(rotors[i-1].isItNotch() && rotors[i-1].getPreviousPosition() != rotors[i-1].getCurrentPosition()){
-        if(i-1 > 0){
-          rotors[i-2].rotate();
-         } 
-      } 
-      }
+    for(int i = num_of_rotors; i > 0; i--){ //updates the settings as if it were encoding "time" times
+          if(rotors[i-1].isItNotch() && rotors[i-1].getPreviousPosition() != rotors[i-1].getCurrentPosition()){
+            if(i-1 > 0){
+            rotors[i-2].rotate();
+            } 
+          } 
+    }
   }
   }
   vector<int> new_pos;
   new_pos.push_back(rotors[0].getCurrentPosition());
   new_pos.push_back(rotors[1].getCurrentPosition());
   new_pos.push_back(rotors[2].getCurrentPosition());
-  rotor_positions=new_pos;
+  rotor_positions=new_pos; //updates the rotor positions
 }
 
 void Enigma::set_pos(vector<int> pos){
   if(num_of_rotors > 0){
-    for(int i = num_of_rotors; i > 0; i--){
+    for(int i = 0; i < num_of_rotors; i++){
         rotors[i].changePos(pos[i]);
-      }
-  }
+    }
+ }
 }
 
 void Enigma::encryptMessage(char& letter){
   int curr_index = letter - 'A';
-
   curr_index = plugboard->map(curr_index);
-
 
   if(num_of_rotors> 0){
     rotors[num_of_rotors-1].rotate();
@@ -279,7 +268,6 @@ void Enigma::encryptMessage(char& letter){
           rotors[i-2].rotate();
          } 
       } 
-
       }
   }
 
@@ -293,10 +281,8 @@ void Enigma::encryptMessage(char& letter){
 
      }
   }
-
   curr_index = plugboard->map(curr_index);
-
-  letter = curr_index + 'A';
+  letter = curr_index + 'A'; //conversion
 }
 
 void Enigma::printEnigma(){
@@ -327,45 +313,3 @@ void Enigma::printEnigma(){
 
   }
 }
-//encryption that prints out the decoding, used it to debug
-// void Enigma::encryptMessage(char& letter){
-//   int curr_index = letter - 'A';
-//   cout << "mapping " << curr_index << " into ";
-//   curr_index = plugboard->map(curr_index);
-//   cout << curr_index << " through the plugboard" << endl;
-//       cout << "mapping " << curr_index << " into ";
-//   if(num_of_rotors> 0){
-//     rotors[num_of_rotors-1].rotate();
-//   }
-
-//   if(num_of_rotors > 0){
-//     for(int i = num_of_rotors; i > 0; i--){
-//       curr_index = rotors[i-1].shiftDown(curr_index);
-//       curr_index = rotors[i-1].mapForward(curr_index);
-//       curr_index = rotors[i-1].shiftUp(curr_index);
-//       if(rotors[i-1].isItNotch() && rotors[i-1].getPreviousPosition() != rotors[i-1].getCurrentPosition()){
-//         if(i-1 > 0){
-//           rotors[i-2].rotate();
-//          } 
-//       } 
-//       cout << curr_index << " by rotor number "<< i <<" , then into ";
-//       }
-//   }
-//   cout << "the reflector."<< endl << "mapping " << curr_index << " into ";
-//   curr_index = reflector->map(curr_index); 
-//   cout << curr_index << " through the reflector" << endl;
-//   cout << "mapping " << curr_index << " into ";
-//     if(num_of_rotors > 0){
-//     for(int i = 0; i < num_of_rotors; i++){
-//       curr_index = rotors[i].shiftDown(curr_index);
-//       curr_index = rotors[i].mapBackward(curr_index);
-//       curr_index = rotors[i].shiftUp(curr_index);
-//       cout << curr_index << " by rotor number "<< i <<" , then into ";
-//      }
-//   }
-//    cout << "the plugboard."<< endl << "mapping " << curr_index << " into ";
-//   curr_index = plugboard->map(curr_index);
-//   cout << curr_index << " through the plugboard" << endl;
-//   letter = curr_index + 'A';
-// }
- 

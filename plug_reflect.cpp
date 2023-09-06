@@ -1,5 +1,5 @@
-#include "plug_reflect.h"
-#include "alphabet.h"
+#include "plug_reflect.hpp"
+#include "alphabet.hpp"
 #include <iostream>
 #include <fstream>
 using namespace std;

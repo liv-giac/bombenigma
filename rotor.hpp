@@ -1,14 +1,14 @@
 #ifndef ROTOR_H
 #define ROTOR_H
 
-#include "alphabet.h" //alph length
+#include "alphabet.hpp" //alph length
 #include <vector>
 
 using namespace std;
 
 class Rotor{
 private:
-  //this is the offset of the rotor compared to letter A
+  //the offset of the rotor compared to letter A
   int curr_pos;
   // with this position we compare how much we have rotated and if is time to trigger another rotor
   int prev_pos;
@@ -38,6 +38,7 @@ public:
   int mapBackward(int contact);
   // returns true if curr_pos is at the notch
   bool isItNotch();
+  // getters
   vector<int> getNotchAndPos();
   vector<int> getContacts();
 };
