@@ -80,4 +80,6 @@ In this project there are tools to construct working enigmas (coded with the hel
 Via the makefile you can run the bombe (make run_bombe) and it will print in the output file the possible positions it would have stopped at. It is important to note that even then not every day was a good day to find rotor positions, since many loops and cribs had to be tried and not always they were useful. So this is not guaranteed to give a solution, it is implemented more from an historical interest.
 
 ## run_bruteforce
-Via the makefile you can also run the brute-force version (make run_bruteforce), that uses parallel methods to try all the settings and find a key in one of them. This shows how modern technology would have "killed" the enigma instantly, or at least in a matter of seconds.
+Via the makefile you can also run the brute-force version (make run_bruteforce), that uses parallel methods to try all the settings and find a key in one of them. This shows how modern technology would have "killed" the enigma instantly, or at least in a matter of seconds.*
+
+*for this version, I generated a printed list of all the possible plugboard settings for three plugs, as to not have to calculate the combinations every time. This is done in makepluglist.cpp
