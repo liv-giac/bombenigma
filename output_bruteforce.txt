@@ -1,4 +1,8 @@
-The message we try to decode is NVMOUHRKVIXLFFVBHRJDWIYOGGZKUGLNDKU
-number of cribs found: 7
-Found solution at rotor positions 1 1 8.
-with plugboard settings D C E B F A 
+Found solution at rotor positions 25 1 8.
+with plugboard settings D A F C G B 
+Decoded messages: 
+LEZIONISOSPESEALPOLITECNICODIMILANO
+CLIMATIZZATORIACCESIALPOLITECNICODIMILANO
+STUDENTIFUORISEDEAFFOLLANOILPOLITECNICODIMILANO
+ATTACCOPROGRAMMATOINPIAZZALEODAVANTIALPOLITECNICODIMILANO
+Time taken: 32 seconds
