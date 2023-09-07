@@ -11,6 +11,26 @@
 #include <unordered_map>
 #include <unordered_set>
 
+vector<int> readplug(const string& input) {
+    vector<int> output;
+    string temp;
+
+    for (char c : input) {
+        if (c == ' ') {
+            if (!temp.empty()) {
+                output.push_back(stoi(temp));
+                temp.clear();
+            }
+        } else {
+            temp += c;
+        }
+    }
+    if (!temp.empty()) {
+        output.push_back(stoi(temp));
+    }
+    return output;
+}
+
 //Encoding a series of full messages with "hidden settings" that we only have in the makefile
 vector<string> encodeFullMessages(int argc, char** argv){
 
@@ -98,6 +118,8 @@ struct codePair{
     return letter1 == other.letter1 && letter2 == other.letter2 && pos == other.pos;
 }
 };
+
+
 
 //This function extracts the pairs and their positions from crib and key
 set<codePair>  readMatches(string key, string crib, int cribPos){
