@@ -4,7 +4,7 @@
 #include <cstring>
 #include <string>
 #include "encodetools.hpp"
-
+#include <omp.h>
 using namespace std;
 
 
@@ -20,14 +20,13 @@ int main(int argc, char** argv){
     string key= getKeyFromFile(); 
     //we find the possible cribs
     vector<string>  cribList = getCribs(output, key);
+    reverse(cribList.begin(), cribList.end());
     int n_cribs=cribList.size();
     cout << "number of cribs found: " <<n_cribs<<endl;
     int cribPos;
-
-    string crib=cribList.back();
-    cribList={};
-    cribList.push_back(crib);
-
+    int threads=min(n_cribs,8);
+   
+    #pragma omp parallel for num thread(threads) shared(cribList) private(cribPos,pluglist)
     for (string crib : cribList){//we try for all cribs
       cribPos=output.find(crib);
       ifstream pluglist("pluglist.txt");

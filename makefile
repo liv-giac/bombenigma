@@ -18,7 +18,7 @@ run_bombe: bombe
 	./bombe $(ARG) output_bombe.txt
 
 bruteforce: $(SRC_FILES) $(HEADER_FILES)
-	$(CC) $(CFLAGS) $(BRUTEFORCE) $(SRC_FILES) -o bruteforce
+	$(CC)  -fopenmp $(CFLAGS) $(BRUTEFORCE) $(SRC_FILES) -o bruteforce
 	 
 	
 run_bruteforce: bruteforce
